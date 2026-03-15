@@ -25,7 +25,7 @@ struct gpio{
 	uint32_t __reserved9;
 	uint32_t AFEN[2];
 	uint32_t __reserved10;
-	uint32_t PUD;
+	uint32_t PUD;		//pull-up/down
 	uint32_t PUDCLK[2];
 };
 struct gpio* gpio = (struct gpio*) GPIO_BASE;
@@ -50,8 +50,8 @@ static inline void gpio_set_function(uint8_t pin, uint8_t func){
 	gpio->FSEL[fsel_index] |= func << fsel_offset_bit;
 }
 static inline void gpio_put(uint8_t pin, bool val){
-	//if(pin > 53 || val > 1)return
 	const uint32_t idx = (pin / 32);
+	//if(pin > 53 || val > 1)return
 	const uint32_t pin_bit = 1 << (pin % 32);
 	switch(val){
 		case 0:
@@ -62,5 +62,31 @@ static inline void gpio_put(uint8_t pin, bool val){
 }
 static bool gpio_get(uint8_t pin){
 	return ( (gpio->LEV[pin / 32] >> (pin % 32) ) & 1);
+}
+static void gpio_pull_up(uint8_t pin){
+	//if(pin > 53 || val > 1)return
+	uint32_t tmp = gpio->PUD;
+	tmp = tmp & 0xffffff00;
+	tmp |= 0x02;
+	gpio->PUD = tmp;
+	__NOP(150);
+	gpio->PUDCLK[pin / 32] = (1 << (pin % 32));
+	__NOP(150);
+	tmp = tmp & (~1);	//disable the pull-up/down control
+	gpio->PUD = tmp;
+	gpio->PUDCLK[pin / 32] = (1 << (pin % 32));
+}
+static void gpio_pull_down(uint8_t pin){
+	//if(pin > 53 || val > 1)return
+	uint32_t tmp = gpio->PUD;
+	tmp = tmp & 0xffffff00;
+	tmp |= 0x01;
+	gpio->PUD = tmp;
+	__NOP(150);
+	gpio->PUDCLK[pin / 32] = (1 << (pin % 32));
+	__NOP(150);
+	tmp = tmp & (~1);
+	gpio->PUD = tmp;
+	gpio->PUDCLK[pin / 32] = (1 << (pin % 32));
 }
 #endif
