@@ -7,8 +7,11 @@ C_SOURCES = $(wildcard src/*.c)
 ASM_SOURCES = $(wildcard src/*.s)
 C_OBJS = $(C_SOURCES:src/%.c=bin/%.co)
 ASM_OBJS = $(ASM_SOURCES:src/%.s=bin/%.o)
-.PHONY: build run clean
+.PHONY: build run clean build-qemu qemu-defs
 build: $(KERNEL)
+build-qemu: qemu-defs build
+qemu-defs:
+	$(eval CFLAGS+= -D__QEMU_BOARD -g)
 $(KERNEL): $(ASM_OBJS) $(C_OBJS)
 	$(TOOLCHAIN)gcc -o $@ $(LDFLAGS) $(CFLAGS) $^
 bin/%.co: src/%.c | bin

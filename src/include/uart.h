@@ -11,7 +11,7 @@
 #define UART_CR 0x30
 #define UART_MIS 0x40
 #define UART_ICR 0x44
-bool uart_init(uint16_t baud);
+bool uart_init(uint32_t baud);
 void uart_putc(char);
 char uart_getc();
 #endif

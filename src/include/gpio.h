@@ -3,28 +3,28 @@
 #include "BCM2835.h"
 #define GPIO_BASE (MMIO_BASE + 0x20000)
 struct gpio{
-	uint32_t FSEL[6];
-	uint32_t __reserved0;
-	uint32_t SET[2];
-	uint32_t __reserved1;
-	uint32_t CLR[2];
-	uint32_t __reserved2;
-	uint32_t LEV[2];
-	uint32_t __reserved3;
-	uint32_t EDS[2];
-	uint32_t __reserved4;
-	uint32_t REN[2];
-	uint32_t __reserved5;
-	uint32_t FEN[2];
-	uint32_t __reserved6;
-	uint32_t HEN[2];
-	uint32_t __reserved7;
-	uint32_t LEN[2];
-	uint32_t __reserved8;
-	uint32_t AREN[2];
-	uint32_t __reserved9;
-	uint32_t AFEN[2];
-	uint32_t __reserved10;
+	uint32_t FSEL[6]; // 0x00
+	uint32_t __reserved0;	// 0x18
+	uint32_t SET[2];	//0x1c
+	uint32_t __reserved1;	//0x24
+	uint32_t CLR[2];	//0x28
+	uint32_t __reserved2;	//0x30
+	uint32_t LEV[2];	//0x34
+	uint32_t __reserved3;	//0x3c
+	uint32_t EDS[2];	//0x40
+	uint32_t __reserved4;	//0x48
+	uint32_t REN[2];	//0x4c
+	uint32_t __reserved5;	//0x54
+	uint32_t FEN[2];	//0x58
+	uint32_t __reserved6;	//0x60
+	uint32_t HEN[2];	//0x64
+	uint32_t __reserved7;	//0x6c
+	uint32_t LEN[2];	//0x70
+	uint32_t __reserved8;	//0x78
+	uint32_t AREN[2];	//0x7c
+	uint32_t __reserved9;	//0x84
+	uint32_t AFEN[2];	//0x88
+	uint32_t __reserved10;	//0x90
 	uint32_t PUD;		//pull-up/down
 	uint32_t PUDCLK[2];
 };
@@ -56,7 +56,7 @@ static inline void gpio_put(uint8_t pin, bool val){
 	switch(val){
 		case 0:
 			gpio->CLR[idx] |= pin_bit;
-		case 1;
+		case 1:
 			gpio->SET[idx] |= pin_bit;
 	}
 }
