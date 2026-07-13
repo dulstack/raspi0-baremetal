@@ -1,6 +1,7 @@
 #ifndef __UART_H
 #define __UART_H
 #include "BCM2835.h"
+//Use the uart0
 #define UART_BASE (uint32_t*)0x20201000
 #define FUARTCLK 250000000
 #define UART_DR 0x00
@@ -14,4 +15,5 @@
 bool uart_init(uint32_t baud);
 void uart_putc(char);
 char uart_getc();
+size_t uart_write(const char* buf, size_t count);
 #endif
