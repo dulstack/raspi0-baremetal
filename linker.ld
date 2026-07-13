@@ -4,10 +4,8 @@ MEMORY {
 }
 _stack_start = ORIGIN(RAM) + LENGTH(RAM);
 SECTIONS {
-	.vectors : {
-		*(.vectors)
-	} > RAM
 	.text : {
+		*(.vectors)
 		. = ALIGN(4);
 		*(.text)
 		. = ALIGN(4);
