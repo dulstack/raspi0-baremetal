@@ -1,12 +1,13 @@
 .org 0x00
 .globl main
 .globl _Reset
+.globl SWI_Handler
 .section .vectors
 _VECTOR_TABLE:
 	b _Reset
 	b . //Undefined
-	b . //SWI
-	b . //Prefetch abort
+	b SWI_Handler
+	b halt
 	b . //Data abort
 	b . //IRQ
 	b . //FIQ
