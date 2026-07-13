@@ -1,4 +1,4 @@
-jstatic int get_bit_width(int a){
+static int get_bit_width(int a){
 	int w=0;
 	while(a>0){
 		a = a >> 2;
