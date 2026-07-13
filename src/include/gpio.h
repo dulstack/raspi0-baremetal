@@ -1,7 +1,7 @@
 #ifndef __GPIO_H
 #define __GPIO_H
 #include "BCM2835.h"
-#define GPIO_BASE (MMIO_BASE + 0x20000)
+#define GPIO_BASE (MMIO_BASE + 0x200000)
 struct gpio{
 	uint32_t FSEL[6]; // 0x00
 	uint32_t __reserved0;	// 0x18
@@ -51,7 +51,7 @@ static inline void gpio_set_function(uint8_t pin, uint8_t func){
 }
 static inline void gpio_put(uint8_t pin, bool val){
 	const uint32_t idx = (pin / 32);
-	//if(pin > 53 || val > 1)return
+	//if(pin > 53 || val > 1)return;
 	const uint32_t pin_bit = 1 << (pin % 32);
 	switch(val){
 		case 0:
@@ -64,7 +64,7 @@ static bool gpio_get(uint8_t pin){
 	return ( (gpio->LEV[pin / 32] >> (pin % 32) ) & 1);
 }
 static void gpio_pull_up(uint8_t pin){
-	//if(pin > 53 || val > 1)return
+	//if(pin > 53 || val > 1)return;
 	uint32_t tmp = gpio->PUD;
 	tmp = tmp & 0xffffff00;
 	tmp |= 0x02;
@@ -77,7 +77,7 @@ static void gpio_pull_up(uint8_t pin){
 	gpio->PUDCLK[pin / 32] = (1 << (pin % 32));
 }
 static void gpio_pull_down(uint8_t pin){
-	//if(pin > 53 || val > 1)return
+	//if(pin > 53 || val > 1)return;
 	uint32_t tmp = gpio->PUD;
 	tmp = tmp & 0xffffff00;
 	tmp |= 0x01;
