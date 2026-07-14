@@ -2,13 +2,14 @@
 #include"gpio.h"
 bool uart_init(uint32_t baudrate){
 	uint32_t CR;
-	//Set uart0 alternate funcitons for pins 30-33 to ALT3
-	for(int pin = 30; pin < 34; pin++){
-		//here the gpio_pull_* calls will slow down the CPU a bit. TODO: optimize this part of code
+	//Set uart0 alternate funcitons for pins 14-17
+	for(int pin = 14; pin < 18; pin++){
 		gpio_pull_down(pin);
-		gpio_set_function(pin, GPIO_FUNC_ALT3);
+		if(pin > 15)gpio_set_function(pin, GPIO_FUNC_ALT3);
+		else gpio_set_function(pin, GPIO_FUNC_ALT0);
 
 	}
+
 	*(UART_BASE + UART_CR) &= ~(0xffff);
 	//wait until the end of transmission
 	while( *(UART_BASE + UART_FR) & (1 << 3));
